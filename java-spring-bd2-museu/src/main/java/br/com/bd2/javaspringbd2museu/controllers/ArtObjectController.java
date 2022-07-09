@@ -19,6 +19,7 @@ import br.com.bd2.javaspringbd2museu.model.ArtObject;
 public class ArtObjectController {
   @Autowired
   ArtObjectRepository artObjectRepository;
+  
   @GetMapping("/art-object")
   public ResponseEntity<List<ArtObject>> getAllArtObjects(@RequestParam(required = false) String title) {
     try {
