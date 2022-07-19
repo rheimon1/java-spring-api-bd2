@@ -22,4 +22,5 @@ public interface ArtObjectRepository {
   List<ArtObject> findByMonth(String month);
   List<ArtObject> findByYear(String year);
   int save(ArtObject artObject);
+  List<ArtObject> findTitleAndCostOrderedByCost();
 }

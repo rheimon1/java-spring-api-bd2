@@ -23,9 +23,12 @@ public class CollectionController {
     @Autowired
     CollectionRepository collectionRepository;
 
+    /*
+     * Liste as coleções com o maior número de empréstimos por mês e por ano.
+     */
 	@GetMapping("/collection")
 	public ResponseEntity<List<_Collection>> getAllCollections(
-        @RequestParam(required = false) String month, 
+        @RequestParam(required = false) String month,
         @RequestParam(required = false) String year
     ) {
         try {

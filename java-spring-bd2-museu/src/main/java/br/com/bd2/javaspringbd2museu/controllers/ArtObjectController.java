@@ -21,13 +21,13 @@ import br.com.bd2.javaspringbd2museu.model.ArtObject;
 public class ArtObjectController {
     @Autowired
     ArtObjectRepository artObjectRepository;
-    
+
     /*
      * Liste os objetos de arte por tipo e por classe
      */
     @GetMapping("/art-object")
     public ResponseEntity<List<ArtObject>> getAllArtObjects(
-        @RequestParam(required = false) String type, 
+        @RequestParam(required = false) String type,
         @RequestParam(required = false) String _class
     ) {
         try {
@@ -48,11 +48,25 @@ public class ArtObjectController {
     }
 
     /*
+     * Faça uma curva desses gastos
+     */
+    @GetMapping("/art-object/costs")
+    public ResponseEntity<List<ArtObject>> getArtObjectCosts() {
+        try {
+            List<ArtObject> artObjects = new ArrayList<ArtObject>();
+            this.artObjectRepository.findTitleAndCostOrderedByCost().forEach(artObjects::add);
+            return new ResponseEntity<>(artObjects, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
      * Faça um controle (listagem) da compra de objetos de arte por mês e por ano do museu.
      */
     @GetMapping("/art-object/permanent-collection")
     public ResponseEntity<List<ArtObject>> getAll(
-        @RequestParam(required = false) String month, 
+        @RequestParam(required = false) String month,
         @RequestParam(required = false) String year
     ) {
         try {
@@ -77,7 +91,7 @@ public class ArtObjectController {
      */
     @GetMapping("/art-object/borrowed/count")
     public ResponseEntity<Integer> getCountOfBorrowedArtObjects(
-        @RequestParam(required = false) String collectionName, 
+        @RequestParam(required = false) String collectionName,
         @RequestParam(required = false) String month,
         @RequestParam(required = false) String year
     ) {
@@ -102,18 +116,23 @@ public class ArtObjectController {
         return new ResponseEntity<>(Integer.valueOf(count), HttpStatus.OK);
     }
 
+    /**
+     * cadastre os diferentes objetos de arte comprados ou emprestados das coleções conveniadas
+     * @param artObject
+     * @return
+     */
     @PostMapping("/art-object")
     public ResponseEntity<String> createTutorial(@RequestBody ArtObject artObject) {
         try {
             this.artObjectRepository.save(
                 new ArtObject(
-                    artObject.getNomeArtista(), 
+                    artObject.getNomeArtista(),
                     artObject.getPeriodo(),
-                    artObject.getAno(), 
+                    artObject.getAno(),
                     artObject.getTitulo(),
-                    artObject.getDescricao(), 
+                    artObject.getDescricao(),
                     artObject.getCultura(),
-                    artObject.getEstilo(), 
+                    artObject.getEstilo(),
                     artObject.getCusto(),
                     artObject.getTipo()
                 )

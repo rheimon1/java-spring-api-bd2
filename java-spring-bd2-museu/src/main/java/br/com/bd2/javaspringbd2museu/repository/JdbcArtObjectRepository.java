@@ -109,7 +109,7 @@ public class JdbcArtObjectRepository implements ArtObjectRepository {
             "FROM museu.objeto_arte as obj "+
             "JOIN museu.colecao_permanente c on c.o_numid = obj.numid";
         return jdbcTemplate.query(
-            query, 
+            query,
             BeanPropertyRowMapper.newInstance(ArtObject.class)
         );
     }
@@ -121,7 +121,7 @@ public class JdbcArtObjectRepository implements ArtObjectRepository {
             "WHERE DATE_PART('YEAR', c.data_aquisicao) = '"+year+"' "+
             "AND DATE_PART('MONTH', c.data_aquisicao) = '"+month;
         return jdbcTemplate.query(
-            query, 
+            query,
             BeanPropertyRowMapper.newInstance(ArtObject.class)
         );
     }
@@ -132,7 +132,7 @@ public class JdbcArtObjectRepository implements ArtObjectRepository {
             "JOIN museu.colecao_permanente c on c.o_numid = obj.numid"+
             "WHERE DATE_PART('MONTH', c.data_aquisicao) = '"+month;
         return jdbcTemplate.query(
-            query, 
+            query,
             BeanPropertyRowMapper.newInstance(ArtObject.class)
         );
     }
@@ -143,7 +143,7 @@ public class JdbcArtObjectRepository implements ArtObjectRepository {
             "JOIN museu.colecao_permanente c on c.o_numid = obj.numid"+
             "WHERE DATE_PART('YEAR', c.data_aquisicao) = '"+year;
         return jdbcTemplate.query(
-            query, 
+            query,
             BeanPropertyRowMapper.newInstance(ArtObject.class)
         );
     }
@@ -151,5 +151,13 @@ public class JdbcArtObjectRepository implements ArtObjectRepository {
     public int save(ArtObject artObject) {
         String query = "INSERT INTO objeto_arte (nome_artista, periodo, ano, titulo, descricao, cultura, estilo, custo, tipo_objeto_arte) VALUES(?,?,?,?,?,?,?,?,?)";
         return jdbcTemplate.update(query, new Object[] { artObject.getNomeArtista(), artObject.getPeriodo(), artObject.getAno(), artObject.getTitulo(),artObject.getDescricao(), artObject.getCultura(), artObject.getEstilo(), artObject.getCusto(), artObject.getTipo() });
+    }
+
+    public List<ArtObject> findTitleAndCostOrderedByCost() {
+        String query = "SELECT titulo, custo FROM objeto_arte ORDER BY custo";
+        return jdbcTemplate.query(
+            query,
+            BeanPropertyRowMapper.newInstance(ArtObject.class)
+        );
     }
 }

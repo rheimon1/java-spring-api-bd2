@@ -12,9 +12,9 @@ public class _Collection {
     }
 
     public _Collection(
-        String nome, 
-        String telefone, 
-        String tipo, 
+        String nome,
+        String telefone,
+        String tipo,
         String descricao,
         String endereco,
         String pessoa_contato
@@ -66,7 +66,7 @@ public class _Collection {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-    
+
     public String getPessoa_contato() {
         return pessoa_contato;
     }
