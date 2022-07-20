@@ -11,7 +11,9 @@ public class ArtObject {
   private String estilo;
   private float custo;
   private String tipo;
-
+  private String dataCompra;
+  private String nomeColecao;
+  private int quantidade;
 
   public ArtObject() {
   }
@@ -36,6 +38,30 @@ public class ArtObject {
     this.estilo = estilo;
     this.custo = custo;
     this.tipo = tipo;
+  }
+
+  public String getNomeColecao() {
+      return nomeColecao;
+  }
+
+  public void setNomeColecao(String nomeColecao) {
+      this.nomeColecao = nomeColecao;
+  }
+
+  public int getQuantidade() {
+      return quantidade;
+  }
+
+  public void setQuantidade(int quantidade) {
+      this.quantidade = quantidade;
+  }
+
+  public String getDataCompra() {
+      return dataCompra;
+  }
+
+  public void setDataCompra(String dataCompra) {
+      this.dataCompra = dataCompra;
   }
   
   public int getAno() {

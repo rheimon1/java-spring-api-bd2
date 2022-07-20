@@ -7,6 +7,7 @@ public class _Collection {
     private String descricao;
     private String endereco;
     private String pessoa_contato;
+    private int quantidade;
 
     public _Collection() {
     }
@@ -25,6 +26,14 @@ public class _Collection {
         this.descricao = descricao;
         this.endereco = endereco;
         this.pessoa_contato = pessoa_contato;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public String getNome() {

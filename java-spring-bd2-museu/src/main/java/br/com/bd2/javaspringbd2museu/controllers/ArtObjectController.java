@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,30 +91,30 @@ public class ArtObjectController {
      * Faça uma controle (listagem) da quantidade de objetos emprestados por coleção, por mês e por ano.
      */
     @GetMapping("/art-object/borrowed/count")
-    public ResponseEntity<Integer> getCountOfBorrowedArtObjects(
+    public ResponseEntity<List<ArtObject>> getCountOfBorrowedArtObjects(
         @RequestParam(required = false) String collectionName,
         @RequestParam(required = false) String month,
         @RequestParam(required = false) String year
     ) {
-        int count = 0;
+        List<ArtObject> artObjects = new ArrayList<ArtObject>();
         if (collectionName == null && month == null && year == null) {
-            count = this.artObjectRepository.getBorrowedCount();
+            this.artObjectRepository.getBorrowedCount().forEach(artObjects::add);
         } else if (collectionName != null && month != null && year != null) {
-            count = this.artObjectRepository.getBorrowedCountByCollectionNameAndMonthAndYear(collectionName, month, year);
+            this.artObjectRepository.getBorrowedCountByCollectionNameAndMonthAndYear(collectionName, month, year).forEach(artObjects::add);
         } else if (collectionName != null && month != null && year == null) {
-            count = this.artObjectRepository.getBorrowedCountByCollectionNameAndMonth(collectionName, month);
+            this.artObjectRepository.getBorrowedCountByCollectionNameAndMonth(collectionName, month).forEach(artObjects::add);
         } else if (collectionName != null && month == null && year != null) {
-            count = this.artObjectRepository.getBorrowedCountByCollectionNameAndYear(collectionName, year);
+            this.artObjectRepository.getBorrowedCountByCollectionNameAndYear(collectionName, year).forEach(artObjects::add);
         } else if (collectionName == null && month != null && year != null) {
-            count = this.artObjectRepository.getBorrowedCountByMonthAndYear(month, year);
+            this.artObjectRepository.getBorrowedCountByMonthAndYear(month, year).forEach(artObjects::add);
         } else if (collectionName != null && month == null && year == null) {
-            count = this.artObjectRepository.getBorrowedCountByCollectionName(collectionName);
+            this.artObjectRepository.getBorrowedCountByCollectionName(collectionName).forEach(artObjects::add);
         } else if (collectionName == null && month != null && year == null) {
-            count = this.artObjectRepository.getBorrowedCountByMonth(month);
+            this.artObjectRepository.getBorrowedCountByMonth(month).forEach(artObjects::add);
         } else if (collectionName == null && month == null && year != null) {
-            count = this.artObjectRepository.getBorrowedCountByYear(year);
+            this.artObjectRepository.getBorrowedCountByYear(year).forEach(artObjects::add);
         }
-        return new ResponseEntity<>(Integer.valueOf(count), HttpStatus.OK);
+        return new ResponseEntity<>(artObjects, HttpStatus.OK);
     }
 
     /**
@@ -137,7 +138,7 @@ public class ArtObjectController {
                     artObject.getTipo()
                 )
             );
-            return new ResponseEntity<>("Objeto de Arte criado com sucesso.", HttpStatus.CREATED);
+            return new ResponseEntity<>("Objeto de Arte criado com sucesso.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
